@@ -13,6 +13,9 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Commands.tanktanktankCommand;
+import frc.robot.Subsystems.tanktanktankSubsystem;
 
 /**
  * This is a demo program showing the use of the DifferentialDrive class, specifically it contains
@@ -32,6 +35,10 @@ public class Robot extends TimedRobot {
 
   private final MotorController m_leftMotor = new PWMSparkMax(0);
   private final MotorController m_rightMotor = new PWMSparkMax(1);
+
+  private final tanktanktankSubsystem _tanktanktankSubsystem = new tanktanktankSubsystem();
+  private final tanktanktankCommand _tanktanktankCommand = new tanktanktankCommand(_tanktanktankSubsystem, m_leftStick, m_rightStick);
+
 
   @Override
   public void robotInit() {
@@ -60,10 +67,60 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void teleopPeriodic() {
-//    m_myRobot.tankDrive(m_controller.getLeftY(), m_controller.getRightY());
-    frontleft.set(VictorSPXControlMode.PercentOutput, m_leftStick.getY());
-    frontright.set(VictorSPXControlMode.PercentOutput, -m_rightStick.getY());
+  public void robotPeriodic() {
+    CommandScheduler.getInstance().run();
+  }
+
+  @Override
+  public void autonomousInit() {
 
   }
+
+  @Override
+  public void autonomousPeriodic() {
+
+  }
+
+  @Override
+  public void teleopInit() {
+    CommandScheduler.getInstance().schedule(_tanktanktankCommand);
+  }
+
+  @Override
+  public void teleopPeriodic() {
+//    m_myRobot.tankDrive(m_controller.getLeftY(), m_controller.getRightY());
+
+
+  }
+
+  @Override
+  public void testInit() {
+
+  }
+
+  @Override
+  public void testPeriodic() {
+
+  }
+
+  @Override
+  public void simulationInit() {
+
+  }
+
+  @Override
+  public void simulationPeriodic() {
+
+  }
+
+  @Override
+  public void disabledInit() {
+      CommandScheduler.getInstance().cancel(_tanktanktankCommand);
+  }
+
+  @Override
+  public void disabledPeriodic() {
+
+  }
+
 }

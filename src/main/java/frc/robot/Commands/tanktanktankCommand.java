@@ -29,13 +29,20 @@ public class tanktanktankCommand extends CommandBase {
     }
 
     @Override
+    public void execute() {
+        tanktanktanksubsystem.tankDrive(leftStick.getY(), rightStick.getY());
+    }
+
+    @Override
     public boolean isFinished() {
         return true;
     }
 
-    @Override
-    public void execute() {
+//    @Override
+//    public void end() {
+//
+//    }
 
-    }
+
 
 }
