@@ -2,7 +2,6 @@ package frc.robot.Subsystems;
 
 import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class tanktanktankSubsystem extends SubsystemBase {
@@ -20,7 +19,7 @@ public class tanktanktankSubsystem extends SubsystemBase {
         backright.follow(frontright);
     }
 
-    public void tankDrive(double left, double right) {
+    public void drive(double left, double right) {
         frontleft.set(VictorSPXControlMode.PercentOutput, left);
         frontright.set(VictorSPXControlMode.PercentOutput, -right);
 

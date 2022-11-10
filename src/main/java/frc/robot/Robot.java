@@ -4,17 +4,12 @@
 
 package frc.robot;
 
-import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.motorcontrol.MotorController;
-import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
-import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.Commands.tanktanktankCommand;
+import frc.robot.Commands.arcadeDriveCommand;
+import frc.robot.Commands.tankDriveCommand;
 import frc.robot.Subsystems.tanktanktankSubsystem;
 
 /**
@@ -27,42 +22,25 @@ public class Robot extends TimedRobot {
   private Joystick m_rightStick;
 //  private XboxController m_controller;
 
-  private VictorSPX frontleft;
-  private VictorSPX backleft;
-  private VictorSPX frontright;
-  private VictorSPX backright;
 
-
-  private final MotorController m_leftMotor = new PWMSparkMax(0);
-  private final MotorController m_rightMotor = new PWMSparkMax(1);
-
-  private final tanktanktankSubsystem _tanktanktankSubsystem = new tanktanktankSubsystem();
-  private final tanktanktankCommand _tanktanktankCommand = new tanktanktankCommand(_tanktanktankSubsystem, m_leftStick, m_rightStick);
-
+  private tanktanktankSubsystem _tanktanktankSubsystem;
+  private tankDriveCommand _tankDriveCommand;
+  private arcadeDriveCommand _arcadeDriveCommand;
 
   @Override
   public void robotInit() {
     // We need to invert one side of the drivetrain so that positive voltages
     // result in both sides moving forward. Depending on how your robot's
     // gearbox is constructed, you might have to invert the left side instead.
-    m_rightMotor.setInverted(true);
+//    m_rightMotor.setInverted(true);
 
     m_leftStick = new Joystick(0);
     m_rightStick = new Joystick(1);
-//    m_controller = new XboxController(0);
 
+    _tanktanktankSubsystem = new tanktanktankSubsystem();
+    _tankDriveCommand = new tankDriveCommand(_tanktanktankSubsystem, m_leftStick, m_rightStick);
+    _arcadeDriveCommand = new arcadeDriveCommand(_tanktanktankSubsystem, m_leftStick, m_rightStick);
 
-
-
-
-    frontleft = new VictorSPX(12);
-    backleft = new VictorSPX(13);
-    backleft.follow(frontleft);
-    frontright = new VictorSPX(10);
-    backright = new VictorSPX(11);
-    backright.follow(frontright);
-
-//    m_myRobot = new DifferentialDrive(m_leftMotor, m_rightMotor);
 
   }
 
@@ -83,12 +61,12 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    CommandScheduler.getInstance().schedule(_tanktanktankCommand);
   }
 
   @Override
   public void teleopPeriodic() {
 //    m_myRobot.tankDrive(m_controller.getLeftY(), m_controller.getRightY());
+    CommandScheduler.getInstance().schedule(_arcadeDriveCommand);
 
 
   }
@@ -115,7 +93,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledInit() {
-      CommandScheduler.getInstance().cancel(_tanktanktankCommand);
+      CommandScheduler.getInstance().cancel(_tankDriveCommand);
   }
 
   @Override
