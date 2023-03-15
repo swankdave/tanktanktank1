@@ -66,8 +66,9 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
 //    m_myRobot.tankDrive(m_controller.getLeftY(), m_controller.getRightY());
-    CommandScheduler.getInstance().schedule(_arcadeDriveCommand);
+//    CommandScheduler.getInstance().schedule(_arcadeDriveCommand);
 
+    CommandScheduler.getInstance().schedule(_arcadeDriveCommand);
 
   }
 

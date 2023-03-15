@@ -38,13 +38,16 @@ public class arcadeDriveCommand extends CommandBase {
         double leftspeed = 0;
         double rightspeed = 0;
 
-        if(yaw<0) {
-            leftspeed=throttle*(1-abs(yaw));
-            rightspeed=throttle;
-        } else if(yaw>0){
-            leftspeed=throttle;
-            rightspeed=throttle*(1-yaw);
-        }
+//        if(yaw<0) {
+//            leftspeed=throttle*(1-abs(yaw));
+//            rightspeed=throttle;
+//        } else if(yaw>0){
+//            leftspeed=throttle;
+//            rightspeed=throttle*(1-yaw);
+//        }
+
+        leftspeed = throttle+yaw;
+        rightspeed = throttle-yaw;
 
         _tanktanktanksubsystem.drive(leftspeed,rightspeed);
     }
